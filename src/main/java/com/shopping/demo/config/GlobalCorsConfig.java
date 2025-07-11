@@ -25,9 +25,8 @@ public class GlobalCorsConfig {
         config.setAllowCredentials(true);
 
         // Allow specific headers used in requests
-        config.setAllowedHeaders(Arrays.asList(
-            "Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"
-        ));
+		//config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"));
+        config.setAllowedHeaders(Arrays.asList("*"));
 
         // Allow HTTP methods
         config.setAllowedMethods(Arrays.asList(

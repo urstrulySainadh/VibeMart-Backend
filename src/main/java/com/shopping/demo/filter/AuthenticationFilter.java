@@ -68,14 +68,10 @@ public class AuthenticationFilter implements Filter{
 		 }
 		 
 		// Handle preflight (OPTIONS) requests
-//	        if (httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
-//	            setCORSHeaders(httpResponse);
-//	            return;
-//	        }
-		 if (httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
-			    setCORSHeaders(httpRequest,httpResponse);
-			    return;
-			}
+			//if (httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+			//setCORSHeaders(httpResponse);
+			//return;
+			//INFO: Commenting this block because our cors filter is taking care about handling preflight options }
 		 
 		 //Extract and validate the token
 		 String token = getAuthTokenFromCookies(httpRequest);
@@ -112,22 +108,6 @@ public class AuthenticationFilter implements Filter{
 		 //Attach user details to request
 		 httpRequest.setAttribute("authenticatedUser", authenticatedUser);
 		 chain.doFilter(request, response);
-	 }
-	 
-	 private void setCORSHeaders(HttpServletRequest request,HttpServletResponse response) {
-		 String origin = request.getHeader("Origin");
-
-		    if (origin != null && (
-		        origin.equals("http://localhost:5173") ||
-		        origin.equals("https://vibe-mart-sainadhvercels-projects.vercel.app")
-		    )) {
-		        response.setHeader("Access-Control-Allow-Origin", origin);
-		    }
-		 //response.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
-		 response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-		 response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, X-Requested-With");
-		 response.setHeader("Access-Control-Allow-Credentials", "true");
-		 response.setStatus(HttpServletResponse.SC_OK);
 	 }
 	 
 	 private void sendErrorResponse(HttpServletResponse response, int statusCode, String message) throws IOException {
