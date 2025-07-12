@@ -31,7 +31,7 @@ public class AuthenticationFilter implements Filter{
 	private final AuthService authService;
 	private final UserRepository userRepository;
 	
-   //private static final String ALLOWED_ORIGIN = "https://vibe-mart-sainadhvercels-projects.vercel.app";
+    private static final String ALLOWED_ORIGIN = "https://vibe-mart-sainadhvercels-projects.vercel.app";
    //private static final String ALLOWED_ORIGIN = "http://localhost:5173";
 	
 	private static final String[] UNAUTHENTICATED_PATHS = {
@@ -67,11 +67,11 @@ public class AuthenticationFilter implements Filter{
 			 return;
 		 }
 		 
-		// Handle preflight (OPTIONS) requests
-			//if (httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
-			//setCORSHeaders(httpResponse);
-			//return;
-			//INFO: Commenting this block because our cors filter is taking care about handling preflight options }
+		 //Handle preflight (OPTIONS) requests
+		 if (httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+			setCORSHeaders(httpResponse);
+			return;
+		}
 		 
 		 //Extract and validate the token
 		 String token = getAuthTokenFromCookies(httpRequest);
@@ -115,6 +115,14 @@ public class AuthenticationFilter implements Filter{
 		 response.getWriter().write(message);
 		 
 	 }
+	 
+	 private void setCORSHeaders(HttpServletResponse response) {
+	        response.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
+	        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+	        response.setHeader("Access-Control-Allow-Credentials", "true");
+	        response.setStatus(HttpServletResponse.SC_OK);
+	    }
 	 
 	 private String getAuthTokenFromCookies(HttpServletRequest request) {
 		 Cookie[] cookies = request.getCookies();
